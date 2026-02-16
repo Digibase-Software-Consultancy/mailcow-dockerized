@@ -451,6 +451,13 @@ services:
         - ./data/web/inc/sessions.inc.php:/mailcowauth/sessions.inc.php:z
         - sogo-web-vol-1:/usr/lib/GNUstep/SOGo/
       restart: always
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.mailcow.rule=Host(`mail.digibase.com.tr`)"
+        - "traefik.http.routers.mailcow.entrypoints=https"
+        - "traefik.http.routers.mailcow.tls=true"
+        - "traefik.http.routers.mailcow.tls.certresolver=letsencrypt"
+        - "traefik.http.services.mailcow.loadbalancer.server.port=8080"
       networks:
         mailcow-network:
           aliases:
